@@ -1,0 +1,27 @@
+<img src="assets/fondo.jpg" alt="Fondo">
+<div class="login-form" *ngIf="isLogin">
+    <h2>Hi</h2>
+    <form [formGroup]="formGroupLogin" (ngSubmit)="login()">
+        <input matInput type="email" placeholder="email@example.com" [formControl]="emailLogin"
+            oninput="this.value = this.value.trim();this.value = this.value.replace(' ','');" maxlength="100">
+            <mat-error *ngIf="emailLogin.invalid && isLogin">{{errorMessageEmail()}}</mat-error>
+            <input matInput type="password" placeholder="password" [formControl]="passwordLogin" maxlength="50">
+            <button type="submit" [disabled]="!formGroupLogin.valid">Login</button>
+            <mat-error *ngIf="errorResponse">Your credentials are incorrect</mat-error>
+    </form>
+    <p (click)="isLogin = false; errorResponse = false">I don't have an account</p>
+</div>
+<div class="login-form" *ngIf="!isLogin">
+    <h2>Welcome</h2>
+    <form [formGroup]="formGroupRegister" (ngSubmit)="register()">
+        <input matInput type="user" placeholder="username" [formControl]="userRegister" 
+            oninput="this.value = this.value.trim();this.value = this.value.replace(/[^a-zA-Z0-9]/g,'');" maxlength="50">
+        <input matInput type="email" placeholder="email@example.com" [formControl]="emailRegister"
+            oninput="this.value = this.value.trim();this.value = this.value.replace(' ','');" maxlength="100">
+        <mat-error *ngIf="emailRegister.invalid && !isLogin">{{errorMessageEmail()}}</mat-error>
+        <input matInput type="password" placeholder="password" [formControl]="passwordRegister" maxlength="50">
+        <button type="submit" [disabled]="!formGroupRegister.valid">Register</button>
+        <mat-error *ngIf="errorResponse">This email is already registered</mat-error>
+    </form>
+    <p (click)="isLogin = true; errorResponse = false">Login</p>
+</div>
